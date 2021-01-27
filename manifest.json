@@ -1,0 +1,19 @@
+{
+  "manifest_version": 3,
+  "name": "WheelSeek for YouTube",
+  "version": "0.0.1",
+  "permissions": ["tabs","storage"],
+  "description": "Seek forward or backward a YouTube video by wheeling the mouse",
+  "icons": { "128": "icon128.png" },
+  "action": {
+    "default_popup": "popup.html",
+    "run_at": "document_start"
+  },
+  "content_scripts": [
+    {
+      "matches": ["https://www.youtube.com/watch*"],
+      "js": [ "contents.js"],
+      "run_at": "document_end"
+    }
+  ]
+}
