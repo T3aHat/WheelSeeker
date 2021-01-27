@@ -1,28 +1,37 @@
-console.log("Wheel seek for YouTube loaded");
+var eventflag = false;
 
-var playerelm = document.getElementById("player-container");
-var myPlayer = document.getElementsByClassName(
-  "video-stream html5-main-video"
-)[0];
+chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
+  if (request.message == "watch") {
+    chrome.storage.sync.get(
+      {
+        toggle: false,
+        seektimef: 5000,
+        seektimeb: 5000,
+      },
+      function (items) {
+        var myPlayer = document.getElementsByClassName(
+          "video-stream html5-main-video"
+        )[0];
+        function func(e) {
+          e.preventDefault();
+          var toggle = items.toggle;
+          var seektime;
+          if ((e.wheelDelta < 0 && !toggle) || (e.wheelDelta > 0 && toggle)) {
+            seektime = items.seektimef / 1000;
+          } else {
+            seektime = -items.seektimeb / 1000;
+          }
+          var now = myPlayer.currentTime;
+          myPlayer.currentTime = now + seektime;
+        }
 
-chrome.storage.sync.get(
-  {
-    toggle: false,
-    seektimef: 5000,
-    seektimeb: 5000,
-  },
-  function (items) {
-    var toggle = items.toggle;
-    var seektime;
-    playerelm.addEventListener("wheel", function (e) {
-      e.preventDefault();
-      if ((e.wheelDelta < 0 && !toggle) || (e.wheelDelta > 0 && toggle)) {
-        seektime = items.seektimef / 1000;
-      } else {
-        seektime = -items.seektimeb / 1000;
+        if (myPlayer.readyState == "4" && eventflag == false) {
+          console.log("Wheel seek for YouTube loaded");
+          var playerelm = document.getElementById("player-container");
+          playerelm.addEventListener("wheel", func);
+          eventflag = true;
+        }
       }
-      var now = myPlayer.currentTime;
-      myPlayer.currentTime = now + seektime;
-    });
+    );
   }
-);
+});
