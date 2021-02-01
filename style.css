@@ -11,6 +11,7 @@ input[type="checkbox"] {
   justify-content: center;
   font-weight: 800;
   color: red;
+  user-select: none;
 }
 
 #save {
@@ -28,6 +29,7 @@ input[type="checkbox"] {
 }
 #savebtn:hover {
   border: solid 2px black;
+  cursor: pointer;
 }
 
 #toggle {
