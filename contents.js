@@ -23,6 +23,21 @@ chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
           }
           var now = myPlayer.currentTime;
           myPlayer.currentTime = now + seektime;
+          var newNode = document.createElement("div");
+          newNode.className = "seek_message";
+          if (seektime >= 0) {
+            seektime = "+" + seektime;
+          }
+          newNode.textContent = seektime;
+          try {
+            document.querySelector(".seek_message").remove();
+          } catch {
+            //no message
+          }
+          document.querySelector(".html5-video-container").appendChild(newNode);
+          setTimeout(function () {
+            newNode.remove();
+          }, 800);
         }
 
         if (myPlayer.readyState == "4" && eventflag == false) {
