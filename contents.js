@@ -21,28 +21,37 @@ chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
           } else {
             seektime = -items.seektimeb / 1000;
           }
+          time += seektime;
           var now = myPlayer.currentTime;
           myPlayer.currentTime = now + seektime;
           var newNode = document.createElement("div");
           newNode.className = "seek_message";
-          if (seektime >= 0) {
-            seektime = "+" + seektime;
+          var message = time.toLocaleString(undefined, {
+            maximumFractionDigits: [3],
+          });
+          console.log(message);
+          if (time >= 0) {
+            message = "+" + message;
           }
-          newNode.textContent = seektime;
+          newNode.textContent = message;
           try {
             document.querySelector(".seek_message").remove();
+            clearTimeout(timer);
           } catch {
             //no message
           }
+
           document.querySelector(".html5-video-container").appendChild(newNode);
-          setTimeout(function () {
+          timer = setTimeout(function () {
             newNode.remove();
+            time = 0;
           }, 800);
         }
 
         if (myPlayer.readyState == "4" && eventflag == false) {
           console.log("Wheel seek for YouTube loaded");
           var playerelm = document.getElementById("player-container");
+          var time = 0;
           playerelm.addEventListener("wheel", func);
           eventflag = true;
         }
