@@ -25,6 +25,7 @@ input[type="checkbox"] {
   background-color: red;
   border: none;
   border-radius: 3px;
+  width: 80%;
 }
 #savebtn:hover {
   border: solid 2px black;
