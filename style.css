@@ -48,7 +48,7 @@ input[type="checkbox"] {
 .seek_message {
   position: absolute;
   font-weight: 700;
-  font-size: 100px;
+  font-size: 10rem;
   font-weight: bold;
   vertical-align: bottom;
   white-space: nowrap;
