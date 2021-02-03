@@ -1,6 +1,7 @@
 import zipfile
 with zipfile.ZipFile('wheelseek.zip', 'w')as zf:
     zf.write('manifest.json')
+    zf.write('background.js')
     zf.write('contents.js')
     zf.write('popup.js')
     zf.write('popup.html')
