@@ -1,14 +1,13 @@
 function save_options() {
-  chrome.extension.isAllowedIncognitoAccess(function (allowed) {
-    chrome.storage.sync.set(
-      {
-        toggle: document.querySelector("#togglein").checked,
-        seektimef: document.querySelector("#seektimeinf").value,
-        seektimeb: document.querySelector("#seektimeinb").value,
-      },
-      function () {}
-    );
-  });
+  chrome.storage.sync.set(
+    {
+      toggle: document.querySelector("#togglein").checked,
+      seektimef: document.querySelector("#seektimeinf").value,
+      seektimeb: document.querySelector("#seektimeinb").value,
+    },
+    function () {}
+  );
+
   chrome.tabs.query({}, function (tabs) {
     for (let i = 0; i < tabs.length; i++) {
       if (tabs[i].url.match(/https:\/\/www.youtube.com\/watch*/)) {
