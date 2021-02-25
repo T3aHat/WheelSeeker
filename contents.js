@@ -2,6 +2,13 @@ var eventflag = false;
 let chapterSecondList = [];
 chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
   if (request.message == "watch") {
+    function keyUpDownFunc(e) {
+      ctrlFlag = e.ctrlKey || e.metaKey;
+      return;
+    }
+    var ctrlFlag = false;
+    document.addEventListener("keyup", keyUpDownFunc);
+    document.addEventListener("keydown", keyUpDownFunc);
     chrome.storage.sync.get(
       {
         toggle: false,
@@ -9,7 +16,7 @@ chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
         seektimeb: 5000,
       },
       function (items) {
-        var myPlayer = document.getElementsByClassName(
+        var video = document.getElementsByClassName(
           "video-stream html5-main-video"
         )[0];
         //update chapter list
@@ -35,11 +42,17 @@ chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
         console.log(
           "WheelSeek for YouTube : chapterlist updated\n" + chapterSecondList
         );
-
-        if (myPlayer.readyState == "4" && eventflag == false) {
+        var time = 0;
+        if (video.readyState == "0") {
+          video.addEventListener("loadeddata", () => {
+            console.log("WheelSeek for YouTube : loadeddata");
+            var playerelm = document.getElementById("player-container");
+            playerelm.addEventListener("wheel", func);
+            eventflag = true;
+          });
+        } else if (eventflag == false) {
           console.log("WheelSeek for YouTube : loaded");
           var playerelm = document.getElementById("player-container");
-          var time = 0;
           playerelm.addEventListener("wheel", func);
           eventflag = true;
         }
@@ -48,7 +61,7 @@ chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
           e.preventDefault();
           var toggle = items.toggle;
           var seektime;
-          var now = myPlayer.currentTime;
+          var now = video.currentTime;
 
           if ((e.wheelDelta < 0 && !toggle) || (e.wheelDelta > 0 && toggle)) {
             seektime = items.seektimef / 1000;
@@ -60,7 +73,7 @@ chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
               for (let sec of chapterSecondList) {
                 if (sec > now) {
                   //go to next chapter
-                  myPlayer.currentTime = sec;
+                  video.currentTime = sec;
                   break;
                 }
               }
@@ -68,14 +81,14 @@ chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
               for (let i = chapterSecondList.length; i >= 0; i--) {
                 if (0.9 < now - chapterSecondList[i]) {
                   //go to before chapter
-                  myPlayer.currentTime = chapterSecondList[i];
+                  video.currentTime = chapterSecondList[i];
                   break;
                 }
               }
             }
           } else {
             time += seektime;
-            myPlayer.currentTime = now + seektime;
+            video.currentTime = now + seektime;
             var newNode = document.createElement("div");
             newNode.className = "seek_message";
             var message = time.toLocaleString(undefined, {
@@ -107,11 +120,3 @@ chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
     );
   }
 });
-
-function keyUpDownFunc(e) {
-  ctrlFlag = e.ctrlKey || e.metaKey;
-  return;
-}
-var ctrlFlag = false;
-document.addEventListener("keyup", keyUpDownFunc);
-document.addEventListener("keydown", keyUpDownFunc);
