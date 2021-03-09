@@ -1,10 +1,10 @@
 # WheelSeek for YouTube  
 You can seek forward or backward a YouTube video by wheeling the mouse.  
 
-# install from Chrome Web Store  
+# Install from Chrome Web Store  
 https://chrome.google.com/webstore/detail/wheelseek-for-youtube/cjjmkhjkajecnbabfihiddlmmdehjodj
 
-# install from GitHub
+# Install from GitHub
 - Download `wheelseek.zip` from   
   
 https://github.com/T3aHat/WheelSeek_for_YouTube/raw/main/wheelseek.zip  
