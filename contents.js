@@ -1,16 +1,20 @@
 var eventflag = false;
 let chapterSecondList = [];
 var ctrlflag = false;
-document
-  .querySelector(".ytp-chrome-controls")
-  .addEventListener("mouseover", function (e) {
-    ctrlflag = true;
-  });
-document
-  .querySelector(".ytp-chrome-controls")
-  .addEventListener("mouseout", function (e) {
-    ctrlflag = false;
-  });
+
+function disablerForEnhancerForYouTube() {
+  document
+    .querySelector("#efyt-speed")
+    .addEventListener("mouseover", function (e) {
+      ctrlflag = true;
+    });
+  document
+    .querySelector("#efyt-speed")
+    .addEventListener("mouseout", function (e) {
+      ctrlflag = false;
+    });
+}
+
 chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
   if (request.message == "watch") {
     function keyUpDownFunc(e) {
@@ -39,6 +43,7 @@ chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
         if (video.readyState == "0" && eventflag == false) {
           video.addEventListener("loadeddata", () => {
             if (!eventflag) {
+              disablerForEnhancerForYouTube();
               console.log("WheelSeek for YouTube : loadeddata");
               chapterSecondList = updateChapterlist();
               var playerelm = document.getElementById("player-container");
@@ -47,6 +52,7 @@ chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
             }
           });
         } else if (eventflag == false) {
+          disablerForEnhancerForYouTube();
           console.log("WheelSeek for YouTube : loaded");
           chapterSecondList = updateChapterlist();
           var playerelm = document.getElementById("player-container");
