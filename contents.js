@@ -1,5 +1,16 @@
 var eventflag = false;
 let chapterSecondList = [];
+var ctrlflag = false;
+document
+  .querySelector(".ytp-chrome-controls")
+  .addEventListener("mouseover", function (e) {
+    ctrlflag = true;
+  });
+document
+  .querySelector(".ytp-chrome-controls")
+  .addEventListener("mouseout", function (e) {
+    ctrlflag = false;
+  });
 chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
   if (request.message == "watch") {
     function keyUpDownFunc(e) {
@@ -31,7 +42,7 @@ chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
               console.log("WheelSeek for YouTube : loadeddata");
               chapterSecondList = updateChapterlist();
               var playerelm = document.getElementById("player-container");
-              playerelm.addEventListener("wheel", func);
+              playerelm.addEventListener("wheel", seekfunc);
               eventflag = true;
             }
           });
@@ -40,7 +51,7 @@ chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
           chapterSecondList = updateChapterlist();
           var playerelm = document.getElementById("player-container");
           if (playerelm) {
-            playerelm.addEventListener("wheel", func);
+            playerelm.addEventListener("wheel", seekfunc);
             eventflag = true;
           }
         }
@@ -102,35 +113,37 @@ chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
           }, 800);
         }
 
-        function func(e) {
-          e.preventDefault();
-          var toggle = items.toggle;
-          var seektime;
-          now = video.currentTime;
+        function seekfunc(e) {
+          if (!ctrlflag) {
+            e.preventDefault();
+            var toggle = items.toggle;
+            var seektime;
+            now = video.currentTime;
 
-          if ((e.wheelDelta < 0 && !toggle) || (e.wheelDelta > 0 && toggle)) {
-            seektime = items.seektimef / 1000;
-          } else {
-            seektime = -items.seektimeb / 1000;
-          }
-
-          if (chapterSecondList.length == 0 || !ctrlFlag) {
-            seekWithMsg(seektime);
-          } else {
-            if (seektime > 0) {
-              for (let sec of chapterSecondList) {
-                if (sec > now) {
-                  //go to next chapter
-                  video.currentTime = sec;
-                  break;
-                }
-              }
+            if ((e.wheelDelta < 0 && !toggle) || (e.wheelDelta > 0 && toggle)) {
+              seektime = items.seektimef / 1000;
             } else {
-              for (let i = chapterSecondList.length; i >= 0; i--) {
-                if (0.9 < now - chapterSecondList[i]) {
-                  //go to before chapter
-                  video.currentTime = chapterSecondList[i];
-                  break;
+              seektime = -items.seektimeb / 1000;
+            }
+
+            if (chapterSecondList.length == 0 || !ctrlFlag) {
+              seekWithMsg(seektime);
+            } else {
+              if (seektime > 0) {
+                for (let sec of chapterSecondList) {
+                  if (sec > now) {
+                    //go to next chapter
+                    video.currentTime = sec;
+                    break;
+                  }
+                }
+              } else {
+                for (let i = chapterSecondList.length; i >= 0; i--) {
+                  if (0.9 < now - chapterSecondList[i]) {
+                    //go to before chapter
+                    video.currentTime = chapterSecondList[i];
+                    break;
+                  }
                 }
               }
             }
