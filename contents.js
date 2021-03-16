@@ -3,16 +3,18 @@ let chapterSecondList = [];
 var ctrlflag = false;
 
 function disablerForEnhancerForYouTube() {
-  document
-    .querySelector("#efyt-speed")
-    .addEventListener("mouseover", function (e) {
-      ctrlflag = true;
-    });
-  document
-    .querySelector("#efyt-speed")
-    .addEventListener("mouseout", function (e) {
-      ctrlflag = false;
-    });
+  try {
+    document
+      .querySelector("#efyt-speed")
+      .addEventListener("mouseover", function (e) {
+        ctrlflag = true;
+      });
+    document
+      .querySelector("#efyt-speed")
+      .addEventListener("mouseout", function (e) {
+        ctrlflag = false;
+      });
+  } catch {}
 }
 
 chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
