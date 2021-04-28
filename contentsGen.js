@@ -16,7 +16,6 @@ chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
           var time = 0;
           var now = 0;
           if (video) {
-            console.log(video.readyState);
             if (eventflag == false) {
               if (video.readyState != 4) {
                 video.addEventListener("loadeddata", () => {
