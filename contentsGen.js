@@ -27,6 +27,7 @@ chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
                     playerelm.addEventListener("wheel", seekFunc, {
                       passive: false,
                     });
+
                     eventflag = true;
                   }
                 });
