@@ -46,7 +46,7 @@ chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
           video.addEventListener("loadeddata", () => {
             if (!eventflag) {
               disablerForEnhancerForYouTube();
-              console.log("WheelSeek for YouTube : loadeddata");
+              console.log("WheelSeeker for YouTube : loadeddata");
               chapterSecondList = updateChapterlist();
               var playerelm = document.getElementById("player-container");
               playerelm.addEventListener("wheel", seekfunc);
@@ -55,7 +55,7 @@ chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
           });
         } else if (eventflag == false) {
           disablerForEnhancerForYouTube();
-          console.log("WheelSeek for YouTube : loaded");
+          console.log("WheelSeeker for YouTube : loaded");
           chapterSecondList = updateChapterlist();
           var playerelm = document.getElementById("player-container");
           if (playerelm) {
@@ -89,7 +89,8 @@ chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
             return 0;
           });
           console.log(
-            "WheelSeek for YouTube : chapterlist updated\n" + chapterSecondList
+            "WheelSeeker for YouTube : chapterlist updated\n" +
+              chapterSecondList
           );
           return chapterSecondList;
         }
@@ -113,7 +114,8 @@ chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
           } catch {
             //no message
           }
-
+          let parent = document.querySelector(".html5-video-container");
+          parent.classList.add("WSVideoParent");
           document.querySelector(".html5-video-container").appendChild(newNode);
           timer = setTimeout(function () {
             newNode.remove();

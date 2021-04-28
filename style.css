@@ -48,18 +48,22 @@ input[type="checkbox"] {
 
 .seek_message {
   position: absolute;
+  color: white;
+  opacity: 0.9;
   font-weight: 700;
   font-size: 10rem;
   font-weight: bold;
   vertical-align: bottom;
   white-space: nowrap;
   box-sizing: border-box;
+  z-index: 9999;
 }
 
-.html5-video-container {
+.WSVideoParent {
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 100%;
-  height: 100%;
+  width: 100% !important;
+  height: 100% !important;
+  z-index: 9998;
 }
