@@ -26,4 +26,4 @@ https://github.com/T3aHat/WheelSeek_for_YouTube/raw/main/wheelseeker.zip
 - niconico, bilibili では，`wheel`が発火しない
 - instagram では，一度動画を読み込まないと使用できない
   - これは`video`を見つける動作を`setTimeout`で遅らせれば回避できるが，他サイトのパフォーマンスが落ちるのでやらない
-  - `MutationObserver`でなんとでもなりそうだが，本命の microsoft strream で実現できたて満足したのでおしまい
+  - `MutationObserver`でなんとでもなりそうだが，本命の microsoft stream で実現できて満足したのでおしまい
