@@ -1,4 +1,4 @@
-var eventflag = false;
+let eventflag = false;
 let chapterSecondList = [];
 var ctrlflag = false;
 

@@ -1,4 +1,5 @@
-let eventflag = false;
+//General version
+let eventflagGen = false;
 chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
   if (request.message == "watchGen") {
     chrome.storage.sync.get(
@@ -16,10 +17,10 @@ chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
           var time = 0;
           var now = 0;
           if (video) {
-            if (eventflag == false) {
+            if (eventflagGen == false) {
               if (video.readyState != 4) {
                 video.addEventListener("loadeddata", () => {
-                  if (!eventflag) {
+                  if (!eventflagGen) {
                     console.log("WheelSeeker : loaded data");
                     var playerelm = video.parentNode;
                     playerelm.classList.add("WSVideoParent");
@@ -27,22 +28,22 @@ chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
                       passive: false,
                     });
 
-                    eventflag = true;
+                    eventflagGen = true;
                   }
                 });
               } else {
-                if (!eventflag) {
+                if (!eventflagGen) {
                   console.log("WheelSeeker : loaded data");
                   var playerelm = video.parentNode;
                   playerelm.classList.add("WSVideoParent");
                   playerelm.addEventListener("wheel", seekFunc, {
                     passive: false,
                   });
-                  eventflag = true;
+                  eventflagGen = true;
                 }
               }
             } else if (video.readyState != 4) {
-              eventflag = false;
+              eventflagGen = false;
             }
 
             function seekWithMsg(seektime) {
@@ -89,8 +90,8 @@ chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
               seekWithMsg(seektime);
             }
           } else {
-            console.log("no video");
-            eventflag = false;
+            //console.log("no video");
+            eventflagGen = false;
           }
         }
       }
