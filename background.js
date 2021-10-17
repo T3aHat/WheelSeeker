@@ -3,7 +3,7 @@ chrome.tabs.onUpdated.addListener(function (tabId, Info, tab) {
 
   if (
     Info.status == "complete" &&
-    uri.match(/https:\/\/www.youtube.com\/watch/) //watch*
+    uri.match(/https:\/\/www.youtube.com\/watch/)
   ) {
     chrome.tabs.sendMessage(tab.id, { message: "watch" }, function (res) {
       if (chrome.runtime.lastError) {
